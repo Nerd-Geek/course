@@ -1,14 +1,13 @@
 package springbootapirestjava.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -28,14 +27,23 @@ public class Pupil {
     private LocalDate createdAt;
     private LocalDate updatedAt;
     private String image;
+    @ToString.Exclude
+    private Clase clase;
+    @ToString.Exclude
+    private Tuition tuition;
 
-    public Pupil(String name, String email, LocalDate createdAt, LocalDate updatedAt, String image) {
+    public Pupil(String name, String email, LocalDate updatedAt, String image, Clase clase, Tuition tuition) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.image = image;
+    }
+
+    public Pupil(String name, String email) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.email = email;
     }
 
     @Id
@@ -77,7 +85,7 @@ public class Pupil {
         this.createdAt = createdAt;
     }
 
-    @Column(name = "createdAt")
+    @Column(name = "updatedAt")
     @NotNull(message = "El createdAt no puede ser nulo")
     public LocalDate getUpdatedAt() {
         return updatedAt;
@@ -93,5 +101,27 @@ public class Pupil {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "id_clase", referencedColumnName = "id")
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
+    }
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "id_tuition", referencedColumnName = "id")
+    public Tuition getTuition() {
+        return tuition;
+    }
+
+    public void setTuition(Tuition tuition) {
+        this.tuition = tuition;
     }
 }

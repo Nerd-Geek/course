@@ -11,5 +11,4 @@ public class APIConfig {
     public static final String API_PATH = "/rest";
     @Value("${api.version}")
     public static final String API_VERSION = "1.0";
-
 }

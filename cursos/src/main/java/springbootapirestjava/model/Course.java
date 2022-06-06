@@ -1,13 +1,17 @@
 package springbootapirestjava.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -21,13 +25,20 @@ public class Course {
     private NamberCourse namberCourse;
     @Column(unique = true)
     private String acronym;
-    private LocalDate createdAt;
+    @CreatedDate
+    private Date createdAt;
+    @ToString.Exclude
+    private Set<Tuition> tuitions;
+    @ToString.Exclude
+    private Set<Modulo> modules;
 
-    public Course(NamberCourse namberCourse, String acronym, LocalDate createdAt) {
+    public Course(NamberCourse namberCourse, String acronym, Date createdAt, Set<Tuition> tuitions, Set<Modulo> modules) {
         this.id = UUID.randomUUID().toString();
         this.namberCourse = namberCourse;
         this.acronym = acronym;
         this.createdAt = createdAt;
+        this.tuitions = tuitions;
+        this.modules = modules;
     }
 
     @Id
@@ -61,11 +72,31 @@ public class Course {
 
     @Column(name = "createdAt")
     @NotNull(message = "El createdAt no puede ser nulo")
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    public Set<Tuition> getTuitions() {
+        return tuitions;
+    }
+
+    public void setTuitions(Set<Tuition> tuitions) {
+        this.tuitions = tuitions;
+    }
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    public Set<Modulo> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Modulo> modules) {
+        this.modules = modules;
     }
 }

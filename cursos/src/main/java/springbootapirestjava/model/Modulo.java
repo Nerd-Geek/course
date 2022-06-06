@@ -1,5 +1,6 @@
 package springbootapirestjava.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,18 +17,24 @@ import java.util.UUID;
 @Builder
 @Table(name = "module")
 @ToString
-public class Module {
+public class Modulo {
     private String id;
     private String name;
     @Column(unique = true)
     private String acronym;
     private LocalDate createdAt;
+    @ToString.Exclude
+    private Course course;
+    @ToString.Exclude
+    private Clase clase;
 
-    public Module(String name, String acronym, LocalDate createdAt) {
+    public Modulo(String name, String acronym, LocalDate createdAt, Course course, Clase clase) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.acronym = acronym;
         this.createdAt = createdAt;
+        this.course = course;
+        this.clase = clase;
     }
 
     @Id
@@ -67,5 +74,27 @@ public class Module {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "id_course", referencedColumnName = "id")
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "id_clase", referencedColumnName = "id")
+    public Clase getClase() {
+        return clase;
+    }
+
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 }
