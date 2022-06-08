@@ -10,7 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import springbootapirestjava.model.Modulo;
 import springbootapirestjava.repositories.ModuleRepository;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +25,7 @@ public class ModuleRepositoryMockTest {
             .id("eee369ba-e4d6-11ec-8fea-0242ac120002")
             .name("Acceso a datos")
             .acronym("AD")
-            .createdAt(LocalDate.now())
+            .createdAt(Date.from(Instant.now()))
             .build();
 
     @MockBean

@@ -5,7 +5,9 @@ import lombok.*;
 import springbootapirestjava.dto.clase.ClaseDTO;
 import springbootapirestjava.dto.course.CourseDTO;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -17,9 +19,5 @@ public class ModuleDTO {
     private String id = UUID.randomUUID().toString();
     private String name;
     private String acronym;
-    private LocalDate createAt = LocalDate.now();
-    @JsonBackReference
-    private CourseDTO course;
-    @JsonBackReference
-    private ClaseDTO clase;
+    private Date createAt = Date.from(Instant.now());
 }

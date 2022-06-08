@@ -9,6 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -22,13 +23,13 @@ public class Modulo {
     private String name;
     @Column(unique = true)
     private String acronym;
-    private LocalDate createdAt;
+    private Date createdAt;
     @ToString.Exclude
     private Course course;
     @ToString.Exclude
     private Clase clase;
 
-    public Modulo(String name, String acronym, LocalDate createdAt, Course course, Clase clase) {
+    public Modulo(String name, String acronym, Date createdAt, Course course, Clase clase) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.acronym = acronym;
@@ -68,11 +69,11 @@ public class Modulo {
 
     @Column(name = "createdAt")
     @NotNull(message = "El createdAt no puede ser nulo")
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 

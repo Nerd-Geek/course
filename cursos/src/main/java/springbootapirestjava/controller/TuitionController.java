@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import springbootapirestjava.config.APIConfig;
 import springbootapirestjava.dto.tuition.ResultTuitionDTO;
 import springbootapirestjava.dto.tuition.TuitionDTO;
+import springbootapirestjava.exceptions.GeneralBadRequestException;
+import springbootapirestjava.exceptions.tuition.TuitionNotFoundException;
+import springbootapirestjava.exceptions.tuition.TuitionNotFountException;
 import springbootapirestjava.mapper.TuitionMapper;
 import springbootapirestjava.model.Tuition;
 import springbootapirestjava.repositories.TuitionRepository;
@@ -24,49 +27,71 @@ public class TuitionController {
     private final TuitionMapper mapper;
 
     @GetMapping("/")
-    public ResponseEntity<ResultTuitionDTO> getAll() {
-        List<Tuition> tuitions = repository.findAll();
-        ResultTuitionDTO result = new ResultTuitionDTO(mapper.toDTO(tuitions));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(result);
+    public ResponseEntity<List<TuitionDTO>> getAll(@RequestParam(name = "limit") Optional<String> limit) {
+        List<Tuition> services = null;
+        try {
+            services = repository.findAll();
+
+            if (limit.isPresent() && !services.isEmpty() && services.size() > Integer.parseInt(limit.get())) {
+                return ResponseEntity.ok(mapper.toDTO(services.subList(0, Integer.parseInt(limit.get()))));
+            } else {
+                if (!services.isEmpty()) {
+                    return ResponseEntity.ok(mapper.toDTO(services));
+                } else {
+                    throw new TuitionNotFoundException();
+                }
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultTuitionDTO> findById(@PathVariable String id) {
+    public ResponseEntity<TuitionDTO> findById(@PathVariable String id) {
         Tuition tuition = repository.findById(id).orElse(null);
-        ResultTuitionDTO result;
-        if (tuition != null) {
-            result = new ResultTuitionDTO(mapper.toDTO(List.of(tuition)));
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+        if (tuition == null) {
+            throw new TuitionNotFountException(id);
         } else {
-            result = new ResultTuitionDTO(mapper.toDTO(new ArrayList<>()));
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            return ResponseEntity.ok(mapper.toDTO(tuition));
         }
     }
 
     @PostMapping("/")
     public ResponseEntity<TuitionDTO> postTuition(@RequestBody TuitionDTO tuitionDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(mapper.toDTO(repository.save(mapper.toModel(tuitionDTO))));
+        Tuition tuition = mapper.toModel(tuitionDTO);
+        Tuition tuitionInsert = repository.save(tuition);
+        return ResponseEntity.ok(mapper.toDTO(tuitionInsert));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResultTuitionDTO> putTuition(@PathVariable String id, @RequestBody TuitionDTO tuitionDTO) {
-        Optional<Tuition> tuition = repository.findById(id);
-        tuitionDTO.setId(id);
-        if (tuition.isPresent())
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResultTuitionDTO(List.of(mapper.toDTO(repository.save(mapper.toModel(tuitionDTO))))));
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultTuitionDTO(new ArrayList<>()));
+    public ResponseEntity<TuitionDTO> putTuition(@PathVariable String id, @RequestBody TuitionDTO tuitionDTO) {
+        try {
+            Tuition tuitionUpdated = repository.findById(id).orElse(null);
+            if (tuitionUpdated == null) {
+                throw new TuitionNotFountException(id);
+            } else {
+
+                tuitionUpdated.setId(tuitionDTO.getId());
+                tuitionUpdated = repository.save(tuitionUpdated);
+
+                return ResponseEntity.ok(mapper.toDTO(tuitionUpdated));
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Actualizar", "Error al actualizar el service. Campos incorrectos.");
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultTuitionDTO> delete(@PathVariable String id) {
-        Optional<Tuition> tuition = repository.findById(id);
-        if (tuition.isPresent()) {
-            repository.delete(tuition.get());
-            return ResponseEntity.ok(new ResultTuitionDTO(List.of(mapper.toDTO(tuition.get()))));
+    public ResponseEntity<TuitionDTO> delete(@PathVariable String id) {
+        Tuition tuition = repository.findById(id).orElse(null);
+        if (tuition == null) {
+            throw new TuitionNotFountException(id);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultTuitionDTO(new ArrayList<>()));
+        try {
+            repository.delete(tuition);
+            return ResponseEntity.ok(mapper.toDTO(tuition));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el service");
+        }
     }
 }

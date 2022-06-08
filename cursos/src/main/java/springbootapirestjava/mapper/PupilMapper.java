@@ -3,6 +3,7 @@ package springbootapirestjava.mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import springbootapirestjava.dto.pupil.CreatePupilDTO;
 import springbootapirestjava.dto.pupil.PupilDTO;
 import springbootapirestjava.model.Pupil;
 
@@ -24,6 +25,10 @@ public class PupilMapper {
 
     public Pupil toModel(PupilDTO item) {
         return modelMapper.map(item, Pupil.class);
+    }
+
+    public Pupil fromDTOCreate(CreatePupilDTO pupilDTO) {
+        return modelMapper.map(pupilDTO, Pupil.class);
     }
 
     public List<Pupil> toModel(List<PupilDTO> items) {

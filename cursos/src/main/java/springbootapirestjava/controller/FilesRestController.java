@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springbootapirestjava.config.APIConfig;
 import springbootapirestjava.exceptions.storage.StorageException;
-import springbootapirestjava.service.StorageService;
+import springbootapirestjava.service.update.StorageService;
 
 import java.io.IOException;
 import java.util.Map;

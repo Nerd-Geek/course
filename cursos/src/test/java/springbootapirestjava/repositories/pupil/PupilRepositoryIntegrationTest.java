@@ -11,7 +11,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import springbootapirestjava.model.Pupil;
 import springbootapirestjava.repositories.PupilRepository;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +26,7 @@ public class PupilRepositoryIntegrationTest {
             .id("dc7f075e-e4d9-11ec-8fea-0242ac120002")
             .name("Germán")
             .email("germa@german.com")
-            .createdAt(LocalDate.now())
+            .createdAt(Date.from(Instant.now()))
             .build();
 
     @Autowired

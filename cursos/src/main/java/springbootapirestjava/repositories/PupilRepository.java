@@ -5,9 +5,9 @@ import springbootapirestjava.model.Pupil;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface PupilRepository extends JpaRepository<Pupil, String> {
     Optional<Pupil> findByName(String name);
-    Optional<Pupil> findByEmail(String name);
+    List<Pupil> findByNameContains(String name);
+    Pupil findByEmail(String name);
 }

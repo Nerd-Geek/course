@@ -16,8 +16,4 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TuitionDTO {
     private String id = UUID.randomUUID().toString();
-    @JsonBackReference
-    private CourseDTO course;
-    @JsonManagedReference
-    private Set<PupilDTO> pupil;
 }
