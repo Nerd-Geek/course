@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import springbootapirestjava.dto.clase.ClaseDTO;
 import springbootapirestjava.dto.pupil.PupilDTO;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ public class JwtUserResponse extends PupilDTO {
     private String token;
 
     @Builder(builderMethodName = "jwtUserResponseBuilder")
-    public JwtUserResponse(String id, String image,String name, Date createAt,
+    public JwtUserResponse(String id, String image, String name, Date createAt,
                            Date updateAt, String email, Set<String> userRoles, String token) {
         super(id, name, email,createAt, updateAt, image, userRoles);
         this.token = token;

@@ -16,4 +16,8 @@ import java.util.UUID;
 public class ClaseDTO {
     private String id = UUID.randomUUID().toString();
     private Double clasification;
+    @JsonManagedReference
+    private Set<ModuleDTO> modules;
+    @JsonManagedReference
+    private Set<PupilDTO> pupils;
 }

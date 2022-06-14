@@ -40,9 +40,7 @@ public class Pupil implements UserDetails {
     private Date createdAt;
     private Date updatedAt = Date.from(Instant.now());
     private String image;
-    @ToString.Exclude
     private Clase clase;
-    @ToString.Exclude
     private Tuition tuition;
 
     public Pupil(String name, String email, String image, String password, Clase clase, Tuition tuition, Set<PupilRol> rols, String username) {
@@ -132,7 +130,6 @@ public class Pupil implements UserDetails {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_clase", referencedColumnName = "id")
     public Clase getClase() {
         return clase;
     }
@@ -143,7 +140,6 @@ public class Pupil implements UserDetails {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_tuition", referencedColumnName = "id")
     public Tuition getTuition() {
         return tuition;
     }

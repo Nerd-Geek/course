@@ -7,7 +7,6 @@ import springbootapirestjava.dto.tuition.TuitionDTO;
 import springbootapirestjava.model.NamberCourse;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -22,4 +21,8 @@ public class CourseDTO {
     private NamberCourse namberCourse;
     private String acronym;
     private Date createAt = Date.from(Instant.now());
+    @JsonManagedReference
+    private Set<TuitionDTO> tuitions;
+    @JsonManagedReference
+    private Set<ModuleDTO> modules;
 }

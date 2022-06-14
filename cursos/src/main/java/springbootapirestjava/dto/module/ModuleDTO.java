@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import springbootapirestjava.dto.clase.ClaseDTO;
 import springbootapirestjava.dto.course.CourseDTO;
+import springbootapirestjava.model.Clase;
+import springbootapirestjava.model.Course;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,4 +21,8 @@ public class ModuleDTO {
     private String name;
     private String acronym;
     private Date createAt = Date.from(Instant.now());
+    @JsonBackReference
+    private CourseDTO course;
+    @JsonBackReference
+    private ClaseDTO clase;
 }

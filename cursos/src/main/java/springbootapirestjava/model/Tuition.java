@@ -20,7 +20,6 @@ import java.util.UUID;
 @ToString
 public class Tuition {
     private String id;
-    @ToString.Exclude
     private Course course;
     @ToString.Exclude
     private Set<Pupil> pupils;
@@ -42,7 +41,6 @@ public class Tuition {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_course", referencedColumnName = "id")
     public Course getCourse() {
         return course;
     }
@@ -52,7 +50,7 @@ public class Tuition {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tuition")
+    @OneToMany(fetch = FetchType.EAGER)
     public Set<Pupil> getPupils() {
         return pupils;
     }

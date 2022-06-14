@@ -1,0 +1,12 @@
+
+]
+java:S1128";Remove this unused import 'lombok.RequiredArgsConstructor'.(ÑØŽúøÿÿÿÿ8€­žþ“0
+b
+java:S1128"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8„­žþ“0
+o
+java:S1128
+"MRemove this unused import 'springbootapirestjava.dto.module.ResultModuleDTO'.(Ûãˆ”ùÿÿÿÿ8…­žþ“0
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8Ž­žþ“0
+h
+java:S2259O"KA "NullPointerException" could be thrown; "moduloUpdated" is nullable here.(ŠÀ·Ë8ò÷ˆþ“0

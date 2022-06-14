@@ -24,9 +24,7 @@ public class Modulo {
     @Column(unique = true)
     private String acronym;
     private Date createdAt;
-    @ToString.Exclude
     private Course course;
-    @ToString.Exclude
     private Clase clase;
 
     public Modulo(String name, String acronym, Date createdAt, Course course, Clase clase) {
@@ -79,7 +77,6 @@ public class Modulo {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_course", referencedColumnName = "id")
     public Course getCourse() {
         return course;
     }
@@ -90,7 +87,6 @@ public class Modulo {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "id_clase", referencedColumnName = "id")
     public Clase getClase() {
         return clase;
     }

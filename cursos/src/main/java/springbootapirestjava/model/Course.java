@@ -81,7 +81,7 @@ public class Course {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    @OneToMany(fetch = FetchType.EAGER)
     public Set<Tuition> getTuitions() {
         return tuitions;
     }
@@ -91,7 +91,7 @@ public class Course {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    @OneToMany(fetch = FetchType.EAGER)
     public Set<Modulo> getModules() {
         return modules;
     }

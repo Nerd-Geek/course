@@ -2,6 +2,7 @@ package springbootapirestjava.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class FilesRestController {
     private StorageService storageService;
 
+    @Autowired
     public void setStorageService(StorageService storageService) {
         this.storageService = storageService;
     }

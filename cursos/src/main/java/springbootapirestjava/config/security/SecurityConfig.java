@@ -85,6 +85,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/tuition/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/tuition/{id}").hasRole("ADMIN")
 
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/files/{filename:.+}").permitAll()
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/files/").permitAll()
+
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
